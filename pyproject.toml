@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flighty-local-cli"
+version = "0.1.0"
+description = "Deterministic local CLI for Flighty's SQLite database"
+requires-python = ">=3.11"
+license = "MIT"
+readme = "README.md"
+dependencies = []
+
+[project.scripts]
+flighty = "flighty:main"
+
+[tool.setuptools]
+py-modules = ["flighty"]
+package-dir = {"" = "skills/flighty/scripts"}
