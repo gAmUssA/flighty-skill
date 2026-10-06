@@ -137,6 +137,15 @@ class CLI(unittest.TestCase):
         self.sql('ALTER TABLE Flight RENAME COLUMN arrivalWeatherConditionName TO arrivalWeatherCondition')
         self.assertEqual(self.run_cli('get', '--id', 'f1')['arrivalWeatherCondition'], 'sunny')
 
+    def test_opaque_binary_flight_fields(self):
+        self.sql('ALTER TABLE Flight ADD COLUMN appState BLOB')
+        self.sql("UPDATE Flight SET appState=X'00FF' WHERE id='f1'")
+        rows = self.run_cli('list', '--upcoming')
+        self.assertEqual(rows[0]['id'], 'f1')
+        self.assertNotIn('appState', rows[0])
+        self.assertNotIn('appState', self.run_cli('get', '--id', 'f1'))
+        self.assertEqual(self.run_cli('status', '--id', 'f1')['status'], 'delayed')
+
     def test_timezone_independence(self):
         args = ['search', '--after', '2026-10-07']
         utc = self.run_cli(*args, env=dict(os.environ, TZ='UTC'))

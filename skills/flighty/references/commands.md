@@ -37,6 +37,8 @@ Read operations open SQLite in read-only mode and use a transaction for a consis
 
 Owner inference uses relationship frequency, then active flight count. This remains a heuristic; use `--user-id` for certainty. Ties fail rather than choosing an arbitrary user. Optional Flight and Ticket fields tolerate schema additions/removals; required relations must retain the upstream layout. Weather fields are passed through using their installed schema names.
 
+Opaque binary Flight fields used internally by the app are omitted from JSON results.
+
 Creation never calls AirLabs and requires explicit instants. A preview validates airport/airline references and known insertion columns. A write takes an immediate transaction, makes a consistent SQLite backup at a new path, and inserts Flight, UserFlight, and optional Ticket atomically. IDs derive deterministically from user, code, route, and departure. Existing owner flights with that tuple return `already_exists` without a write; retries do not update ticket data. Preview cannot guarantee that every constraint in an unknown app schema will accept the insert. An insert failure rolls back and retains the backup.
 
 This writes Flighty's undocumented local storage. A backup is required for writes; app acceptance and cloud synchronization need verification in Flighty. No real database should be modified as part of testing this plugin.

@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 DEFAULT_DB = '~/Library/Containers/com.flightyapp.flighty/Data/Documents/MainFlightyDatabase.db'
 
 
@@ -195,8 +195,9 @@ class Database:
 
 
 def render_flight(row):
-    result = dict(row)
-    for key, value in row.items():
+    # Flighty carries opaque serialized app state alongside queryable columns.
+    result = {key: value for key, value in row.items() if not isinstance(value, bytes)}
+    for key, value in result.items():
         if ('Schedule' in key or key in ['created', 'lastUpdated', 'lastKnownDepartureDate',
                                         'lastKnownArrivalDate', 'equipmentFirstFlightDate']) and isinstance(value, (int, float)):
             result[key] = iso(value)

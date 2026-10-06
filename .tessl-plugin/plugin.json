@@ -1,6 +1,6 @@
 {
   "name": "gamussa/flighty",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Query local Flighty flight data and preview or add flights through a deterministic Python CLI.",
   "private": false,
   "repository": "https://github.com/gAmUssA/flighty-skill",

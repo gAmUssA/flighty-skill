@@ -33,12 +33,12 @@ The CLI covers the upstream tool families: personal flights, friends, detail loo
 
 ## Tessl package
 
-Plugin identity: `gamussa/flighty`, version `0.1.0`. The manifest is `.tessl-plugin/plugin.json`; Tessl generates legacy `tile.json` metadata inside the archive. The CLI ships inside the skill so installation preserves its relative path. The namespace is a packaging default; publishing requires access to that Tessl workspace.
+Plugin identity: `gamussa/flighty`, version `0.1.1`. The manifest is `.tessl-plugin/plugin.json`; Tessl generates legacy `tile.json` metadata inside the archive. The CLI ships inside the skill so installation preserves its relative path. The namespace is a packaging default; publishing requires access to that Tessl workspace.
 
 ```bash
 tessl plugin lint .
 tessl skill lint .
-tessl plugin pack . --output dist/flighty-0.1.0.tgz
+tessl plugin pack . --output dist/flighty-0.1.1.tgz
 ```
 
 See `tessl install --help` for local archive installation supported by your CLI. After registry publication, consumers can use `tessl install gamussa/flighty`. Packaging does not publish the plugin.
@@ -62,4 +62,4 @@ python3 -m unittest discover -s tests -v
 tessl skill lint .
 ```
 
-No personal flight data is included in this package. Tests cover scope isolation, pagination, dates, schema variations, calculations, backups, duplicate detection, and rollback. Compatibility is based on upstream's schema and synthetic fixtures; this package has not been verified against a real Flighty database.
+No personal flight data is included in this package. Tests cover scope isolation, pagination, dates, schema variations, binary fields, calculations, backups, duplicate detection, and rollback. Read commands and creation preview were also verified against a real local Flighty database. Writes and cloud synchronization remain unverified against the live app.
